@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="OrangeBuddy_Client.UserControls.TextBoxQuestionnaire"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrangeBuddy_Client.UserControls"
+             mc:Ignorable="d" d:DesignWidth="200" d:Background="White" x:Name="myTextbox">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis"/>
+    </UserControl.Resources>
+    
+    <StackPanel Margin="20 10">
+        <TextBlock Text="{Binding ElementName=myTextbox, Path=Caption}" Foreground="#97a5b4" FontSize="13" Margin="0 0 0 8"/>
+        <Grid>
+            <TextBlock Margin="13 0" VerticalAlignment="Center" Foreground="#868686" IsHitTestVisible="False"
+                       Panel.ZIndex="1" FontSize="14" Text="{Binding ElementName=textBox}" Visibility="{Binding ElementName=textBox, Converter={StaticResource boolToVis}}"/>
+            <TextBox x:Name="textBox"/> 
+
+        </Grid>
+    </StackPanel>
+</UserControl>

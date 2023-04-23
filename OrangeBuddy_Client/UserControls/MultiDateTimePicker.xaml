@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="OrangeBuddy_Client.UserControls.MultiDateTimePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:OrangeBuddy_Client.UserControls" Name="multiDateTimePicker">
+    <StackPanel Orientation="Horizontal" >
+        <DatePicker Name="datePicker"/>
+        <ComboBox Name="hourComboBox"/>
+        <ComboBox Name="minuteComboBox"/>
+    </StackPanel>
+    
+</UserControl>
