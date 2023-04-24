@@ -19,11 +19,14 @@ namespace OrangeBuddy_Client
         List<string> courses_selected = new List<string>();
         List<string> work_schedule = new List<string>();
         List<string> personal_appointments = new List<string>();
+        string user_email;
         //replace with microservice endpoint
-        const string BASE_URL = "http://localhost:8082/api/users/";
-        public UserQuestionnaire()
+        const string BASE_URL = "https://eo8lb10hc206hpi.m.pipedream.net";
+        string stringpattern = "^[a-zA-Z]+$";
+        public UserQuestionnaire(string email)
         {
             InitializeComponent();
+            user_email = email;
         }
 
 
@@ -31,7 +34,7 @@ namespace OrangeBuddy_Client
         DependencyProperty.Register("SelectedDatesWork", typeof(ObservableCollection<DateTime>), typeof(MultiDateTimePicker), new PropertyMetadata(new ObservableCollection<DateTime>()));
 
         public static readonly DependencyProperty SelectedDatesPersonalAppointments =
-DependencyProperty.Register("SelectedDatesPersonal", typeof(ObservableCollection<DateTime>), typeof(MultiDateTimePicker), new PropertyMetadata(new ObservableCollection<DateTime>()));
+        DependencyProperty.Register("SelectedDatesPersonal", typeof(ObservableCollection<DateTime>), typeof(MultiDateTimePicker), new PropertyMetadata(new ObservableCollection<DateTime>()));
 
         public ObservableCollection<DateTime> SelectedDatesParttime
         {
@@ -135,6 +138,7 @@ DependencyProperty.Register("SelectedDatesPersonal", typeof(ObservableCollection
             {
                 ScheduleDetails schedule = new ScheduleDetails()
                 {
+                    user_email = user_email,
                     major = major,
                     parttimeloc = parttimeloc,
                     year_of_study = yearofStudy,
@@ -144,6 +148,7 @@ DependencyProperty.Register("SelectedDatesPersonal", typeof(ObservableCollection
                     personal_appointment = personal_appointments
                 };
                 var response = await sendScheduleDetails(schedule);
+                Console.WriteLine(response);
                 MessageBox.Show("Form submitted successfully.Building your schedule now..");
                 this.Visibility = Visibility.Collapsed;
             }
@@ -156,36 +161,37 @@ DependencyProperty.Register("SelectedDatesPersonal", typeof(ObservableCollection
         private bool ValidateScheduleDetails(string yearofStudy, string major, string parttime, string parttimeloc)
         {
             // Check if the first name is valid
-            if (string.IsNullOrEmpty(yearofStudy))
+            if (string.IsNullOrEmpty(yearofStudy) || (!yearofStudy.ToLower().Equals("undergrad") && !yearofStudy.ToLower().Equals("grad")))
             {
-                // First name is not valid
+                // year of study is not valid
                 // Handle the error
-                MessageBox.Show("Invalid year of study");
+                MessageBox.Show("Invalid year of study. Enter grad or undergrad");
                 return false;
             }
 
             // Check if the last name is valid
-            if (string.IsNullOrEmpty(major))
+            if (string.IsNullOrEmpty(major) || !Regex.IsMatch(major, stringpattern))
             {
-                // Last name is not valid
+                // major is not valid
                 // Handle the error
-                MessageBox.Show("Invalid major");
+
+                MessageBox.Show("Invalid major.");
                 return false;
             }
 
             // Check if the user name is valid
-            if (string.IsNullOrEmpty(parttime))
+            if (string.IsNullOrEmpty(parttime) || !Regex.IsMatch(parttime, stringpattern))
             {
                 // User name is not valid
                 // Handle the error
-                MessageBox.Show("Invalid parttime input");
+                MessageBox.Show("Invalid part time input");
                 return false;
             }
-            if (string.IsNullOrEmpty(parttimeloc))
+            if (string.IsNullOrEmpty(parttimeloc) || !Regex.IsMatch(parttimeloc, stringpattern))
             {
                 // User name is not valid
                 // Handle the error
-                MessageBox.Show("Invalid parttime location");
+                MessageBox.Show("Invalid part time location");
                 return false;
             }
             return true;

@@ -71,42 +71,42 @@
                             <Separator Grid.Row="1" Grid.ColumnSpan="2" Height="0.7" Margin="-20 20" Background="#e1e6eb" />
                                 
                              <!--Inputs-->
-                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="0 5 5 0">
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
                                 <TextBlock Text="Are you a Grad or Undergrad?*"  FontSize="12"/>
                                 <TextBox Name="yearOfStudy" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa" Width="200"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="0 5 5 0">
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
                                 <TextBlock Text="What is your major?*" FontSize="12"/>
                                 <TextBox TextWrapping="Wrap" Name="majorOfStudy" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa" Width="200"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="0 5 5 0">
-                                <TextBlock TextWrapping="Wrap" Text="Select course code of courses enrolled in*" FontSize="12"/>
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
+                                <TextBlock TextWrapping="Wrap" Text="Select coursecode of courses enrolled in*" FontSize="12" Padding="5"/>
                                 <ComboBox Name="myComboBox" Width="200" Height="30" Loaded="myComboBox_Loaded" SelectionChanged="myComboBox_SelectionChanged">
                                 </ComboBox>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="0 5 5 0">
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
                                 <TextBlock TextWrapping="Wrap" Text="Do you work part-time?(Yes/No)"  FontSize="12"/>
                                 <TextBox Name="isparttime" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa" Width="200"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0 5 5 0">
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
                                 <TextBlock TextWrapping="Wrap" Text="Where do you work part-time?"  FontSize="12"/>
                                 <TextBox Name="whereparttime" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa" Width="200" HorizontalAlignment="Left"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="0 0 0 0">
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="0 0 0 0" VerticalAlignment="Center">
                                 <TextBlock TextWrapping="Wrap" Text="Select the dates that you work part-time?"  FontSize="12"/>
                                 <uc:MultiDateTimePicker x:Name="multiDateTimePickerParttime"/>
                                 <Button Content="Add Date/Time" Click="AddButton_ClickParttime" Width="210" HorizontalAlignment="Left"/>
                                 <Button Content="Remove Date/Time" Click="RemoveButton_ClickParttime" Width="210" HorizontalAlignment="Left"/>
                                 <ListBox Name="dateTimeListBoxWork" Width="210" HorizontalAlignment="Left" Height="20"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="0 5 5 0">
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
                                 <TextBlock TextWrapping="Wrap" Text="Enter any other personal appointments to add to your schedule?" Padding="5" FontSize="12"/>
                                 <uc:MultiDateTimePicker x:Name="multiDateTimePickerPersonal" />
                                 <Button Content="Add Date/Time" Click="AddButton_ClickPersonal" Width="210" HorizontalAlignment="Left"/>
                                 <Button Content="Remove Date/Time" Click="RemoveButton_ClickPersonal" Width="210" HorizontalAlignment="Left"/>
                                 <ListBox Name="dateTimeListBoxPeronal" Width="210" HorizontalAlignment="Left" Height="20"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Grid.Row="5" Click="submitQuestionnaire" Content="Submit" Margin="0 5 5 0"  Style="{StaticResource buttonSubmit}" Width="100" Height="50" HorizontalAlignment="Left"/>
+                            <Button Grid.Column="1" Grid.Row="5" Click="submitQuestionnaire" Content="Submit" Margin="0 5 5 0"  Style="{StaticResource buttonSubmit}" Width="200" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                 </Grid>

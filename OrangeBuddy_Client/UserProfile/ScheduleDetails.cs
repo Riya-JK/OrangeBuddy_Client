@@ -9,6 +9,9 @@ namespace OrangeBuddy_Client.UserProfile
 {
     public class ScheduleDetails
     {
+        [JsonProperty("user_email")]
+        public string user_email { get; set; }
+
         [JsonProperty("year_of_study")]
         public string year_of_study { get; set; }
 

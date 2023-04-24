@@ -15,7 +15,7 @@ namespace OrangeBuddy_Client
 {
     public partial class MainWindow : Window
     {
-        const string BASE_URL = "http://localhost:8082/api/users/";
+        const string BASE_URL = "https://eo8lb10hc206hpi.m.pipedream.net";
         string emailRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         string passwordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
         public MainWindow()
@@ -33,26 +33,30 @@ namespace OrangeBuddy_Client
                 LoginDetails login = new LoginDetails() { email=email, password=password};
                 var response = await SendLoginDetails(login);
                 Console.WriteLine(response);
-                if(response != null)
-                {
-                    if (response.Equals("{login:successful, isSurveyFilled:False}"))
-                    {
-                        MessageBox.Show("Successfully signed in");
-                        UserQuestionnaire userQuestionnaire = new UserQuestionnaire();
-                        this.Visibility = Visibility.Collapsed;
-                        userQuestionnaire.Visibility = Visibility.Visible;
-                    }
-                    else if (response.Equals("{login:successful, isSurveyFilled:True}"))
-                    {
-                        MessageBox.Show("Successfully signed in");
-                        this.Visibility = Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Login unsuccessful");
-                    }
-                }
-        }
+                MessageBox.Show("Successfully signed in");
+                UserQuestionnaire userQuestionnaire = new UserQuestionnaire(login.email);
+                this.Visibility = Visibility.Collapsed;
+                userQuestionnaire.Visibility = Visibility.Visible;
+                //if (response != null)
+                //{
+                //    if (response.Equals("{login:successful, isSurveyFilled:False}"))
+                //    {
+                //        MessageBox.Show("Successfully signed in");
+                //        UserQuestionnaire userQuestionnaire = new UserQuestionnaire(login.email);
+                //        this.Visibility = Visibility.Collapsed;
+                //        userQuestionnaire.Visibility = Visibility.Visible;
+                //    }
+                //    else if (response.Equals("{login:successful, isSurveyFilled:True}"))
+                //    {
+                //        MessageBox.Show("Successfully signed in");
+                //        this.Visibility = Visibility.Collapsed;
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("Login unsuccessful");
+                //    }
+                //}
+            }
         }
 
         public static async Task<string> SendLoginDetails(LoginDetails loginDetails)
