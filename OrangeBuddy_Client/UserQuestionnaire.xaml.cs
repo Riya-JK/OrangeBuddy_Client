@@ -20,7 +20,7 @@ namespace OrangeBuddy_Client
         List<string> work_schedule = new List<string>();
         List<string> personal_appointments = new List<string>();
         //replace with microservice endpoint
-        const string BASE_URL = "https://eoa2ii88q736em.m.pipedream.net";
+        const string BASE_URL = "http://localhost:8082/api/users/";
         public UserQuestionnaire()
         {
             InitializeComponent();

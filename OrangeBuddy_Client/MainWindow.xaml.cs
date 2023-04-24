@@ -15,7 +15,7 @@ namespace OrangeBuddy_Client
 {
     public partial class MainWindow : Window
     {
-        const string BASE_URL = "https://eoa2ii88q736em.m.pipedream.net";
+        const string BASE_URL = "http://localhost:8082/api/users/";
         string emailRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         string passwordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
         public MainWindow()
@@ -35,26 +35,23 @@ namespace OrangeBuddy_Client
                 Console.WriteLine(response);
                 if(response != null)
                 {
-                MessageBox.Show("Successfully signed in");
-                    UserQuestionnaire userQuestionnaire = new UserQuestionnaire();
-                    this.Visibility = Visibility.Collapsed;
-                    userQuestionnaire.Visibility = Visibility.Visible;
-                    //if (response.Equals("{login:successful, isSurveyFilled:False}"))
-                    //{
-                    //    MessageBox.Show("Successfully signed in");
-                    //    UserQuestionnaire userQuestionnaire = new UserQuestionnaire();
-                    //    this.Visibility = Visibility.Collapsed;
-                    //    userQuestionnaire.Visibility = Visibility.Visible;
-                    //}
-                    //else if(response.Equals("{login:successful, isSurveyFilled:True}")){
-                    //    MessageBox.Show("Successfully signed in");
-                    //    this.Visibility = Visibility.Collapsed;
-                    //}
-                    //else
-                    //{
-                    //    MessageBox.Show("Login unsuccessful");
-                    //}
-            }
+                    if (response.Equals("{login:successful, isSurveyFilled:False}"))
+                    {
+                        MessageBox.Show("Successfully signed in");
+                        UserQuestionnaire userQuestionnaire = new UserQuestionnaire();
+                        this.Visibility = Visibility.Collapsed;
+                        userQuestionnaire.Visibility = Visibility.Visible;
+                    }
+                    else if (response.Equals("{login:successful, isSurveyFilled:True}"))
+                    {
+                        MessageBox.Show("Successfully signed in");
+                        this.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Login unsuccessful");
+                    }
+                }
         }
         }
 
