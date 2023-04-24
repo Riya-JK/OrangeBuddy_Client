@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Text.RegularExpressions;
+
 namespace OrangeBuddy_Client
 {
     public partial class SignUp : Window
@@ -18,6 +19,7 @@ namespace OrangeBuddy_Client
         string passwordString;
         string nameRegex = "^[A-Za-z]+$";
         string emailRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        string dateRegex = @"^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$";
         string passwordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
         const string BASE_URL = "https://eo8lb10hc206hpi.m.pipedream.net";
 

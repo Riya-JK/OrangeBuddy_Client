@@ -25,7 +25,5 @@ namespace OrangeBuddy_Client
         [JsonProperty("user_name")]
         public string user_name { get; set; }
 
-        [JsonProperty("SUID")]
-        public string SUID { get; set; }
     }
 }

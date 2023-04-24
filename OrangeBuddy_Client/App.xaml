@@ -211,7 +211,6 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#d9d9d9"/>
                 </Trigger>
                 <Trigger Property="IsMouseCaptured"  Value="True">
                     <Setter Property="Background" Value="#c4c4c4"/>
@@ -233,7 +232,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
+        
         <Style x:Key="questionnaireTextBox" TargetType="TextBox">
             <Setter Property="Foreground" Value="#384756"/>
             <Setter Property="Background" Value="#e1e6eb"/>

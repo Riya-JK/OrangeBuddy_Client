@@ -45,7 +45,6 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Name="textEmail" MouseDown="textEmail_MouseDown" Text="Email" Style="{StaticResource textHint}"/>
-                        <TextBox x:Name="txtEmail" Style="{StaticResource textBox}" MouseDown="txtEmail_MouseDown" />
                     </Grid>
                 </Border>
 

@@ -35,7 +35,7 @@ namespace OrangeBuddy_Client
                 Console.WriteLine(response);
                 if(response != null)
                 {
-                    MessageBox.Show("Successfully signed in");
+                MessageBox.Show("Successfully signed in");
                     UserQuestionnaire userQuestionnaire = new UserQuestionnaire();
                     this.Visibility = Visibility.Collapsed;
                     userQuestionnaire.Visibility = Visibility.Visible;
@@ -54,8 +54,8 @@ namespace OrangeBuddy_Client
                     //{
                     //    MessageBox.Show("Login unsuccessful");
                     //}
-                }
             }
+        }
         }
 
         public static async Task<string> SendLoginDetails(LoginDetails loginDetails)
