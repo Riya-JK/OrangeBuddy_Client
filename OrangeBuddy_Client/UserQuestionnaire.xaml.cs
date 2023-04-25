@@ -151,6 +151,8 @@ namespace OrangeBuddy_Client
                 Console.WriteLine(response);
                 MessageBox.Show("Form submitted successfully.Building your schedule now..");
                 this.Visibility = Visibility.Collapsed;
+                UserSchedule userSchedule = new UserSchedule();
+                userSchedule.Visibility = Visibility.Visible;
             }
             else
             {
