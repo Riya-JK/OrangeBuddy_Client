@@ -4,14 +4,8 @@
              xmlns:local="clr-namespace:OrangeBuddy_Client.UserControls" Name="multiDateTimePicker">
     <StackPanel Orientation="Horizontal" >
         <DatePicker Name="datePicker"/>
-        <StackPanel Orientation="Horizontal" Margin="2">
         <ComboBox Name="hourComboBox"/>
         <ComboBox Name="minuteComboBox"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="2">
-            <ComboBox Name="endhourComboBox"/>
-            <ComboBox Name="endminuteComboBox"/>
-        </StackPanel>
     </StackPanel>
     
 </UserControl>

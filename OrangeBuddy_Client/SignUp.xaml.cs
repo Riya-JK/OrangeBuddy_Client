@@ -44,8 +44,7 @@ namespace OrangeBuddy_Client
             string emailId = email.Text;
             string suiduser = suid.Text;
             string passwordString = password.Password.ToString();
-            string password2 = verifypassword.Password.ToString();
-            var isValid = validateUserDetails(firstName, lastName, userName, emailId, suiduser, passwordString, password2);
+            var isValid = validateUserDetails(firstName, lastName, userName, emailId, suiduser, passwordString);
             if (isValid)
             {
                 SignUpDetails signUpObj = new SignUpDetails()
@@ -64,7 +63,7 @@ namespace OrangeBuddy_Client
             }
         }
 
-        private bool validateUserDetails(string firstName, string lastName, string userName, string emailId, string suid, string passwordString, string password2)
+        private bool validateUserDetails(string firstName, string lastName, string userName, string emailId, string suid, string passwordString)
         {
             // Check if the first name is valid
             if (string.IsNullOrEmpty(firstName) || !Regex.IsMatch(firstName, nameRegex))
@@ -112,7 +111,7 @@ namespace OrangeBuddy_Client
             }
 
             // Check if the password is valid
-            if (string.IsNullOrEmpty(passwordString) || string.IsNullOrEmpty(password2) || !passwordString.Equals(password2) || !Regex.IsMatch(passwordString, passwordRegex))
+            if (string.IsNullOrEmpty(passwordString) || !Regex.IsMatch(passwordString, passwordRegex))
             {
                 // Password is not valid
                 // Handle the error

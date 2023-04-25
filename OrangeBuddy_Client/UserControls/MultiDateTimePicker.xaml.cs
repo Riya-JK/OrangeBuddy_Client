@@ -25,8 +25,6 @@ namespace OrangeBuddy_Client.UserControls
             // Populate the hour and minute ComboBox controls
             hourComboBox.Items.Clear();
             minuteComboBox.Items.Clear();
-            endhourComboBox.Items.Clear();
-            endminuteComboBox.Items.Clear();
             for (int i = 0; i < 24; i++)
             {
                 hourComboBox.Items.Add(i.ToString("00"));
@@ -36,21 +34,12 @@ namespace OrangeBuddy_Client.UserControls
             {
                 minuteComboBox.Items.Add(i.ToString("00"));
             }
-            for (int i = 0; i < 24; i++)
-            {
-                endhourComboBox.Items.Add(i.ToString("00"));
-            }
 
-            for (int i = 0; i < 60; i += 15)
-            {
-                endminuteComboBox.Items.Add(i.ToString("00"));
-            }
             // Set the default date and time
             datePicker.SelectedDate = DateTime.Today;
             hourComboBox.SelectedIndex = 0;
             minuteComboBox.SelectedIndex = 0;
-            endhourComboBox.SelectedIndex = 0;
-            endminuteComboBox.SelectedIndex = 0;
+
             // Handle the SelectedDateChanged event of the DatePicker control
             datePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
         }
@@ -68,14 +57,10 @@ namespace OrangeBuddy_Client.UserControls
             {
                 hourComboBox.Items.Add(time.Hour.ToString("00"));
                 minuteComboBox.Items.Add(time.Minute.ToString("00"));
-                endhourComboBox.Items.Add(time.Hour.ToString("00"));
-                endminuteComboBox.Items.Add(time.Minute.ToString("00"));
             }
 
             hourComboBox.SelectedIndex = 0;
             minuteComboBox.SelectedIndex = 0;
-            endhourComboBox.SelectedIndex = 0;
-            endminuteComboBox.SelectedIndex = 0;
         }
 
         // Add a property to get the selected date and time
@@ -85,8 +70,6 @@ namespace OrangeBuddy_Client.UserControls
             {
                 int hour = int.Parse(hourComboBox.SelectedItem.ToString());
                 int minute = int.Parse(minuteComboBox.SelectedItem.ToString());
-                int endhour = int.Parse(endhourComboBox.SelectedItem.ToString());
-                int endminute = int.Parse(endminuteComboBox.SelectedItem.ToString());
 
                 DateTime selectedDate = datePicker.SelectedDate.Value.Date;
                 DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
@@ -95,18 +78,5 @@ namespace OrangeBuddy_Client.UserControls
             }
         }
 
-        public DateTime SelectedEndDateTime
-        {
-            get
-            {
-                int endhour = int.Parse(endhourComboBox.SelectedItem.ToString());
-                int endminute = int.Parse(endminuteComboBox.SelectedItem.ToString());
-
-                DateTime selectedDate = datePicker.SelectedDate.Value.Date;
-                DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, endhour, endminute, 0);
-
-                return selectedTime;
-            }
-        }
     }
 }

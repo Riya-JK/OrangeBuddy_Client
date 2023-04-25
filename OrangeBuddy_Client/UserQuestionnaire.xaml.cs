@@ -17,11 +17,11 @@ namespace OrangeBuddy_Client
     public partial class UserQuestionnaire : Window
     {
         List<string> courses_selected = new List<string>();
-        Dictionary<string, string> work_schedule = new Dictionary<string, string>();
-        Dictionary<string, string> personal_appointments = new Dictionary<string, string>();
+        List<string> work_schedule = new List<string>();
+        List<string> personal_appointments = new List<string>();
         string user_email;
         //replace with microservice endpoint
-        const string BASE_URL = "https://eoijvtzaspnflrk.m.pipedream.net";
+        const string BASE_URL = "https://eo976f2zjvsdg4b.m.pipedream.net";
         string stringpattern = @"^[a-zA-Z\s]+$";
         public UserQuestionnaire(string email)
         {
@@ -51,17 +51,14 @@ namespace OrangeBuddy_Client
         {
             int hour = int.Parse(multiDateTimePickerParttime.hourComboBox.SelectedItem.ToString());
             int minute = int.Parse(multiDateTimePickerParttime.minuteComboBox.SelectedItem.ToString());
-            int endhour = int.Parse(multiDateTimePickerParttime.endhourComboBox.SelectedItem.ToString());
-            int endminute = int.Parse(multiDateTimePickerParttime.endminuteComboBox.SelectedItem.ToString());
 
             DateTime selectedDate = multiDateTimePickerParttime.datePicker.SelectedDate.Value.Date;
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
-            DateTime selectedEndTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, endhour, endminute, 0);
             SelectedDatesParttime.Add(selectedTime);
             dateTimeListBoxWork.Items.Add(selectedTime);
-            if (!work_schedule.ContainsKey(selectedTime.ToString()))
+            if (!work_schedule.Contains(selectedTime.ToString()))
             {
-                work_schedule.Add(selectedTime.ToString(), selectedEndTime.ToString());
+                work_schedule.Add(selectedTime.ToString());
             }
         }
 
@@ -74,7 +71,7 @@ namespace OrangeBuddy_Client
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
             SelectedDatesParttime.Remove(selectedTime);
             dateTimeListBoxWork.Items.Remove(selectedTime);
-            if (work_schedule.ContainsKey(selectedTime.ToString()))
+            if (work_schedule.Contains(selectedTime.ToString()))
             {
                 work_schedule.Remove(selectedTime.ToString());
             }
@@ -84,17 +81,14 @@ namespace OrangeBuddy_Client
         {
             int hour = int.Parse(multiDateTimePickerPersonal.hourComboBox.SelectedItem.ToString());
             int minute = int.Parse(multiDateTimePickerPersonal.minuteComboBox.SelectedItem.ToString());
-            int endhour = int.Parse(multiDateTimePickerParttime.endhourComboBox.SelectedItem.ToString());
-            int endminute = int.Parse(multiDateTimePickerParttime.endminuteComboBox.SelectedItem.ToString());
 
             DateTime selectedDate = multiDateTimePickerPersonal.datePicker.SelectedDate.Value.Date;
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
-            DateTime selectedEndTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, endhour, endminute, 0);
             SelectedDatesPersonal.Add(selectedTime);
             dateTimeListBoxPeronal.Items.Add(selectedTime);
-            if (!personal_appointments.ContainsKey(selectedTime.ToString()))
+            if (!personal_appointments.Contains(selectedTime.ToString()))
             {
-                personal_appointments.Add(selectedTime.ToString(), selectedEndTime.ToString());
+                personal_appointments.Add(selectedTime.ToString());
             }
         }
 
@@ -107,7 +101,7 @@ namespace OrangeBuddy_Client
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
             SelectedDatesPersonal.Remove(selectedTime);
             dateTimeListBoxPeronal.Items.Remove(selectedTime);
-            if (personal_appointments.ContainsKey(selectedTime.ToString()))
+            if (personal_appointments.Contains(selectedTime.ToString()))
             {
                 personal_appointments.Remove(selectedTime.ToString());
             }
