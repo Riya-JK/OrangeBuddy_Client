@@ -69,6 +69,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SignUp.xaml.cs">
+      <DependentUpon>SignUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultiDateTimePicker.xaml.cs">
       <DependentUpon>MultiDateTimePicker.xaml</DependentUpon>
     </Compile>
@@ -76,9 +79,6 @@
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserProfile\LoginDetails.cs" />
-    <Compile Include="SignUp.xaml.cs">
-      <DependentUpon>SignUp.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserProfile\ScheduleDetails.cs" />
     <Compile Include="UserProfile\SignUpDetails.cs" />
     <Compile Include="UserControls\MyOption.xaml.cs">
@@ -87,6 +87,7 @@
     <Compile Include="UserControls\UserControlTextBox.xaml.cs">
       <DependentUpon>UserControlTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserProfile\Weather.cs" />
     <Compile Include="UserQuestionnaire.xaml.cs">
       <DependentUpon>UserQuestionnaire.xaml</DependentUpon>
     </Compile>

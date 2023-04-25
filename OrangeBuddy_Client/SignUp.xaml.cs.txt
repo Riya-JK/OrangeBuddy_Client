@@ -44,18 +44,11 @@ namespace OrangeBuddy_Client
             string emailId = email.Text;
             string suiduser = suid.Text;
             string passwordString = password.Password.ToString();
-            var isValid = validateUserDetails(firstName, lastName, userName, emailId, suiduser, passwordString);
+            var isValid = validateUserDetails(firstName, lastName, userName, emailId, SUID, passwordString);
             if (isValid)
             {
-                SignUpDetails signUpObj = new SignUpDetails()
-                {
-                    email = emailId,
-                    firstname = firstName,
-                    lastname = lastName,
-                    password = passwordString,
-                    username = userName,
-                    SUID = suiduser
-                };
+                SignUpDetails signUpObj = new SignUpDetails() { email=emailId, firstname=firstName, lastname=lastName, password=passwordString, username=userName,
+                SUID= suiduser};
                 var response = await SendRegistrationDetails(signUpObj);
                 Console.WriteLine("response = " + response);
                 MessageBox.Show("Account created successfully. You can login to your account now.");
@@ -101,14 +94,14 @@ namespace OrangeBuddy_Client
                 return false;
             }
 
-            // Check if the suid is valid
-            if (string.IsNullOrEmpty(suid))
-            {
-                // First name is not valid
-                // Handle the error
-                MessageBox.Show("Invalid SUID");
-                return false;
-            }
+            // Check if the date of birth is valid
+            //if (string.IsNullOrEmpty(suid))
+            //{
+            //    // Date of birth is not valid
+            //    // Handle the error
+            //    MessageBox.Show("Invalid Date of Birth");
+            //    return false;
+            //}
 
             // Check if the password is valid
             if (string.IsNullOrEmpty(passwordString) || !Regex.IsMatch(passwordString, passwordRegex))

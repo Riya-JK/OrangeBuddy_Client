@@ -39,6 +39,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="First Name* : " Style="{StaticResource text}"/>
                 <TextBlock Grid.Row="1" Text="Last Name* : " Style="{StaticResource text}"/>
@@ -46,16 +47,18 @@
                 <TextBlock Grid.Row="3" Text="SUID* : " Style="{StaticResource text}"/>
                 <TextBlock Grid.Row="4" Text="Email* : " Style="{StaticResource text}" />
                 <TextBlock Grid.Row="5" Text="Mobile Ph*: " Style="{StaticResource text}" />
-                <TextBlock Grid.Row="6" Text="New Password* : " Style="{StaticResource text}" />
-                <TextBox Name="first_name" Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
-                <TextBox Name="last_name" Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
-                <TextBox Name="user_name" Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
+                <TextBlock Grid.Row="6" Text="Password* : " Style="{StaticResource text}" />
+                <TextBlock Grid.Row="7" Text="Re-enter Password* : " Style="{StaticResource text}" />
+                <TextBox Name="firstname" Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
+                <TextBox Name="lastname" Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
+                <TextBox Name="username" Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
                 <TextBox Name="suid" Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
                 <TextBox Name="email" Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
                 <TextBox Name="contact" Grid.Column="1" Grid.Row="5" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa"/>
-                <PasswordBox Name="password" Grid.Column="1" Grid.Row="6" Background="#f8f9fa" BorderBrush="Black" BorderThickness="1"/>
-       
-                <Grid Grid.Column="1" Grid.Row="7" Margin="0 40 0 0">
+                <PasswordBox Name="password" Grid.Column="1" Grid.Row="6" Background="#f8f9fa" BorderBrush="Black" BorderThickness="1" Height="37"/>
+                <PasswordBox Name="verifypassword" Grid.Column="1" Grid.Row="7" Background="#f8f9fa" BorderBrush="Black" BorderThickness="1" Height="37"/>
+
+                <Grid Grid.Column="1" Grid.Row="8" Margin="0 40 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>

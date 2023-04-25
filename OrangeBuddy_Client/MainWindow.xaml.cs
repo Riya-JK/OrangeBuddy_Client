@@ -15,7 +15,7 @@ namespace OrangeBuddy_Client
 {
     public partial class MainWindow : Window
     {
-        const string BASE_URL = "https://eo8lb10hc206hpi.m.pipedream.net";
+        const string BASE_URL = "http://localhost:8082/api/users/";
         string emailRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         string passwordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
         public MainWindow()

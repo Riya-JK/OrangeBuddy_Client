@@ -40,7 +40,7 @@
         <Grid Grid.ColumnSpan="2" Grid.Row="0" Margin="50 30 50 40" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="UserProfile" Style="{StaticResource menuTitle}" Opacity="1"/>
-                <TextBlock Text="Logout" Style="{StaticResource menuTitle}"/>
+                <TextBlock Name="logout" Text="Logout" Style="{StaticResource menuTitle}" MouseLeftButtonDown="logout_MouseDown"/>
             </StackPanel>
         </Grid>
 
@@ -151,7 +151,7 @@
                             <fa:ImageAwesome Icon="User" Style="{StaticResource userIcon}"/>
                         </Border>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="John Doe" FontSize="22" Foreground="#8f8f8f"/>
+                            <TextBlock Name="username" Text="John Doe" FontSize="22" Foreground="#8f8f8f"/>
                             <TextBlock Text="Syracuse, NY" FontSize="20" Foreground="#9c9c9c"/>
                         </StackPanel>
                     </StackPanel>
@@ -166,7 +166,7 @@
             </Grid>
             <!--Calendar card-->
             <Border Style="{StaticResource calendarCard}">
-                <Viewbox Stretch="Uniform" Width="400" Height="350" HorizontalAlignment="Left">
+                <Viewbox Stretch="Uniform" Width="400" Height="350" HorizontalAlignment="Left" Margin="20 10 0 0">
                     <Calendar Name="calendar">
                     </Calendar>
                 </Viewbox>

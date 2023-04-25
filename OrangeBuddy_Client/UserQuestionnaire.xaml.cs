@@ -21,8 +21,8 @@ namespace OrangeBuddy_Client
         List<string> personal_appointments = new List<string>();
         string user_email;
         //replace with microservice endpoint
-        const string BASE_URL = "https://eo8lb10hc206hpi.m.pipedream.net";
-        string stringpattern = "^[a-zA-Z]+$";
+        const string BASE_URL = "https://eo976f2zjvsdg4b.m.pipedream.net";
+        string stringpattern = @"^[a-zA-Z\s]+$";
         public UserQuestionnaire(string email)
         {
             InitializeComponent();
@@ -151,7 +151,7 @@ namespace OrangeBuddy_Client
                 Console.WriteLine(response);
                 MessageBox.Show("Form submitted successfully.Building your schedule now..");
                 this.Visibility = Visibility.Collapsed;
-                UserSchedule userSchedule = new UserSchedule();
+                UserSchedule userSchedule = new UserSchedule(user_email);
                 userSchedule.Visibility = Visibility.Visible;
             }
             else
