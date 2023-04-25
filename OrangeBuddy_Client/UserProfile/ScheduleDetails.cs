@@ -28,9 +28,9 @@ namespace OrangeBuddy_Client.UserProfile
         public List<string> courses_enrolled { get; set; }
 
         [JsonProperty("parttime_schedule")]
-        public List<string> parttime_schedule { get; set; }
+        public Dictionary<string, string> parttime_schedule { get; set; }
 
         [JsonProperty("personal_appointment")]
-        public List<string> personal_appointment { get; set; }
+        public Dictionary<string, string> personal_appointment { get; set; }
     }
 }
