@@ -69,7 +69,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="SignUp.xaml.cs">
+    <Compile Include="API Integration\PostRequests.cs" />
+    <Compile Include="Model\Events.cs" />
+    <Compile Include="Views\SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultiDateTimePicker.xaml.cs">
@@ -78,20 +80,21 @@
     <Compile Include="UserControls\UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserProfile\LoginDetails.cs" />
-    <Compile Include="UserProfile\ScheduleDetails.cs" />
-    <Compile Include="UserProfile\SignUpDetails.cs" />
+    <Compile Include="Model\LoginDetails.cs" />
+    <Compile Include="Model\ScheduleDetails.cs" />
+    <Compile Include="Model\SignUpDetails.cs" />
     <Compile Include="UserControls\MyOption.xaml.cs">
       <DependentUpon>MyOption.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserControlTextBox.xaml.cs">
       <DependentUpon>UserControlTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserProfile\Weather.cs" />
-    <Compile Include="UserQuestionnaire.xaml.cs">
+    <Compile Include="Model\UserQuestionnaire.cs" />
+    <Compile Include="Model\Weather.cs" />
+    <Compile Include="Views\UserQuestionnaire.xaml.cs">
       <DependentUpon>UserQuestionnaire.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserSchedule.xaml.cs">
+    <Compile Include="Views\UserSchedule.xaml.cs">
       <DependentUpon>UserSchedule.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -106,7 +109,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SignUp.xaml">
+    <Page Include="Views\SignUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,11 +129,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserQuestionnaire.xaml">
+    <Page Include="Views\UserQuestionnaire.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserSchedule.xaml">
+    <Page Include="Views\UserSchedule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,8 +165,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pictures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

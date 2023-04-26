@@ -56,7 +56,7 @@ namespace OrangeBuddy_Client
                     username = userName,
                     SUID = suiduser
                 };
-                var response = await SendRegistrationDetails(signUpObj);
+                var response = await PostRequests.postData<SignUpDetails>(signUpObj, BASE_URL, "register");
                 Console.WriteLine("response = " + response);
                 MessageBox.Show("Account created successfully. You can login to your account now.");
                 backToLogin(sender, e);
@@ -119,35 +119,6 @@ namespace OrangeBuddy_Client
                 return false;
             }
             return true;
-        }
-
-        public static async Task<string> SendRegistrationDetails(SignUpDetails signUpDetails)
-        {
-            using (var client = new HttpClient())
-            {
-                // Set the base address of the REST microservice
-                client.BaseAddress = new Uri(BASE_URL);
-
-                // Set the content type header
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Serialize the registration details to JSON
-                Console.WriteLine(signUpDetails.password);
-                Console.WriteLine(signUpDetails.firstname);
-
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(signUpDetails);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-                // Send the registration details to the REST microservice
-                var response = await client.PostAsync("http://localhost:8082/api/users/register", data);
-                Console.WriteLine(json);
-
-
-                // Read the response from the REST microservice
-                var responseString = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(responseString);
-                return responseString;
-            }
         }
 
     }

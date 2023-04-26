@@ -16,6 +16,7 @@ namespace OrangeBuddy_Client
     public partial class MainWindow : Window
     {
         const string BASE_URL = "http://localhost:8082/api/users/";
+        //const string BASE_URL = "http://localhost:8082/api/users/";
         string emailRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         string passwordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
         public MainWindow()
@@ -31,7 +32,7 @@ namespace OrangeBuddy_Client
             if (isValid)
             {
                 LoginDetails login = new LoginDetails() { email=email, password=password};
-                var response = await SendLoginDetails(login);
+                var response = await PostRequests.postData<LoginDetails>(login, BASE_URL, "login");
                 Console.WriteLine(response);
                 MessageBox.Show("Successfully signed in");
                 UserQuestionnaire userQuestionnaire = new UserQuestionnaire(login.email);
@@ -56,30 +57,6 @@ namespace OrangeBuddy_Client
                 //        MessageBox.Show("Login unsuccessful");
                 //    }
                 //}
-            }
-        }
-
-        public static async Task<string> SendLoginDetails(LoginDetails loginDetails)
-        {
-            using (var client = new HttpClient())
-            {
-                // Set the base address of the REST microservice
-                client.BaseAddress = new Uri(BASE_URL);
-
-                // Set the content type header
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Serialize the registration details to JSON
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(loginDetails);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-                // Send the registration details to the REST microservice
-                var response = await client.PostAsync("login", data);
-
-                // Read the response from the REST microservice
-                var responseString = await response.Content.ReadAsStringAsync();
-
-                return responseString;
             }
         }
 

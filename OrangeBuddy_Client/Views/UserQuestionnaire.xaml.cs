@@ -1,4 +1,5 @@
-﻿using OrangeBuddy_Client.UserControls;
+﻿using Newtonsoft.Json;
+using OrangeBuddy_Client.UserControls;
 using OrangeBuddy_Client.UserProfile;
 using System;
 using System.CodeDom;
@@ -16,19 +17,37 @@ namespace OrangeBuddy_Client
 {
     public partial class UserQuestionnaire : Window
     {
+
         List<string> courses_selected = new List<string>();
-        List<string> work_schedule = new List<string>();
-        List<string> personal_appointments = new List<string>();
+        Dictionary<string, string> work_schedule = new Dictionary<string, string>();
+        Dictionary<string, string> personal_appointments = new Dictionary<string, string>();
         string user_email;
         //replace with microservice endpoint
-        const string BASE_URL = "https://eo976f2zjvsdg4b.m.pipedream.net";
+        const string BASE_URL_SCHEDULE = "http://localhost:8081/api/";
+        const string BASE_URL_COURSECODES = "http://localhost:8081/api/course/codes";
         string stringpattern = @"^[a-zA-Z\s]+$";
         public UserQuestionnaire(string email)
         {
             InitializeComponent();
             user_email = email;
+
+            //fetching course codes
+            MakeGetRequest();
         }
 
+        private async void MakeGetRequest()
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(BASE_URL_COURSECODES);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseBody);
+            string[] courses = JsonConvert.DeserializeObject<string[]>(responseBody);
+            foreach (string course in courses)
+            {
+                myComboBox.Items.Add(course);
+            }
+            Console.WriteLine("courses = " + courses.Length);
+        }
 
         public static readonly DependencyProperty SelectedDatesPropertyParttime =
         DependencyProperty.Register("SelectedDatesWork", typeof(ObservableCollection<DateTime>), typeof(MultiDateTimePicker), new PropertyMetadata(new ObservableCollection<DateTime>()));
@@ -51,14 +70,18 @@ namespace OrangeBuddy_Client
         {
             int hour = int.Parse(multiDateTimePickerParttime.hourComboBox.SelectedItem.ToString());
             int minute = int.Parse(multiDateTimePickerParttime.minuteComboBox.SelectedItem.ToString());
+            int endhour = int.Parse(multiDateTimePickerParttime.endhourComboBox.SelectedItem.ToString());
+            int endminute = int.Parse(multiDateTimePickerParttime.endminuteComboBox.SelectedItem.ToString());
 
             DateTime selectedDate = multiDateTimePickerParttime.datePicker.SelectedDate.Value.Date;
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
+            DateTime selectedEndTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, endhour, endminute, 0);
+
             SelectedDatesParttime.Add(selectedTime);
             dateTimeListBoxWork.Items.Add(selectedTime);
-            if (!work_schedule.Contains(selectedTime.ToString()))
+            if (!work_schedule.ContainsKey(selectedTime.ToString()))
             {
-                work_schedule.Add(selectedTime.ToString());
+                work_schedule.Add(selectedTime.ToString(), selectedEndTime.ToString());
             }
         }
 
@@ -71,7 +94,7 @@ namespace OrangeBuddy_Client
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
             SelectedDatesParttime.Remove(selectedTime);
             dateTimeListBoxWork.Items.Remove(selectedTime);
-            if (work_schedule.Contains(selectedTime.ToString()))
+            if (work_schedule.ContainsKey(selectedTime.ToString()))
             {
                 work_schedule.Remove(selectedTime.ToString());
             }
@@ -81,14 +104,18 @@ namespace OrangeBuddy_Client
         {
             int hour = int.Parse(multiDateTimePickerPersonal.hourComboBox.SelectedItem.ToString());
             int minute = int.Parse(multiDateTimePickerPersonal.minuteComboBox.SelectedItem.ToString());
+            int endhour = int.Parse(multiDateTimePickerPersonal.endhourComboBox.SelectedItem.ToString());
+            int endminute = int.Parse(multiDateTimePickerPersonal.endminuteComboBox.SelectedItem.ToString());
 
             DateTime selectedDate = multiDateTimePickerPersonal.datePicker.SelectedDate.Value.Date;
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
+            DateTime selectedEndTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, endhour, endminute, 0);
+            
             SelectedDatesPersonal.Add(selectedTime);
             dateTimeListBoxPeronal.Items.Add(selectedTime);
-            if (!personal_appointments.Contains(selectedTime.ToString()))
+            if (!personal_appointments.ContainsKey(selectedTime.ToString()))
             {
-                personal_appointments.Add(selectedTime.ToString());
+                personal_appointments.Add(selectedTime.ToString(), selectedEndTime.ToString());
             }
         }
 
@@ -101,18 +128,9 @@ namespace OrangeBuddy_Client
             DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
             SelectedDatesPersonal.Remove(selectedTime);
             dateTimeListBoxPeronal.Items.Remove(selectedTime);
-            if (personal_appointments.Contains(selectedTime.ToString()))
+            if (personal_appointments.ContainsKey(selectedTime.ToString()))
             {
                 personal_appointments.Remove(selectedTime.ToString());
-            }
-        }
-
-        private void myComboBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            string[] courses = new string[] { "CIS600", "CIS700", "CIS800", "CIS667" };
-            // Populate the ComboBox with options
-            foreach( string course in courses){
-                myComboBox.Items.Add(course);
             }
         }
 
@@ -147,8 +165,10 @@ namespace OrangeBuddy_Client
                     parttime_schedule = work_schedule,
                     personal_appointment = personal_appointments
                 };
-                var response = await sendScheduleDetails(schedule);
+                var response = await PostRequests.postData<ScheduleDetails>(schedule, BASE_URL_SCHEDULE, "userschedule");
                 Console.WriteLine(response);
+                //var login_response = await PostRequests.postData<ScheduleDetails>(schedule, BASE_URL_SCHEDULE, "login");
+                //Console.WriteLine(login_response);
                 MessageBox.Show("Form submitted successfully.Building your schedule now..");
                 this.Visibility = Visibility.Collapsed;
                 UserSchedule userSchedule = new UserSchedule(user_email);
@@ -199,29 +219,6 @@ namespace OrangeBuddy_Client
             return true;
         }
 
-        public static async Task<string> sendScheduleDetails(ScheduleDetails scheduleDetails)
-        {
-            using (var client = new HttpClient())
-            {
-                // Set the base address of the REST microservice
-                client.BaseAddress = new Uri(BASE_URL);
-
-                // Set the content type header
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Serialize the registration details to JSON
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(scheduleDetails);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-                // Send the registration details to the REST microservice
-                var response = await client.PostAsync("schedule", data);
-
-                // Read the response from the REST microservice
-                var responseString = await response.Content.ReadAsStringAsync();
-
-                return responseString;
-            }
-        }
 
     }
 }

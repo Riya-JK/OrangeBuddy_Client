@@ -9,28 +9,28 @@ namespace OrangeBuddy_Client.UserProfile
 {
     public class ScheduleDetails
     {
-        [JsonProperty("user_email")]
+        [JsonProperty("userEmail")]
         public string user_email { get; set; }
 
-        [JsonProperty("year_of_study")]
+        [JsonProperty("yearOfStudy")]
         public string year_of_study { get; set; }
 
         [JsonProperty("major")]
         public string major { get; set; }
 
-        [JsonProperty("part_time")]
+        [JsonProperty("partTime")]
         public string parttime { get; set; }
 
-        [JsonProperty("part_time_loc")]
+        [JsonProperty("partTimeLoc")]
         public string parttimeloc { get; set; }
 
-        [JsonProperty("courses_enrolled")]
+        [JsonProperty("coursesEnrolled")]
         public List<string> courses_enrolled { get; set; }
 
-        [JsonProperty("parttime_schedule")]
-        public List<string> parttime_schedule { get; set; }
+        [JsonProperty("partTimeSchedule")]
+        public Dictionary<string, string> parttime_schedule { get; set; }
 
-        [JsonProperty("personal_appointment")]
-        public List<string> personal_appointment { get; set; }
+        [JsonProperty("personalAppointment")]
+        public Dictionary<string, string> personal_appointment { get; set; }
     }
 }

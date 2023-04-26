@@ -80,8 +80,8 @@
                                 <TextBox TextWrapping="Wrap" Name="majorOfStudy" BorderBrush="Black" BorderThickness="1"  Background="#f8f9fa" Width="200"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
-                                <TextBlock TextWrapping="Wrap" Text="Select coursecode of courses enrolled in*" FontSize="12" Padding="5"/>
-                                <ComboBox Name="myComboBox" Width="200" Height="30" Loaded="myComboBox_Loaded" SelectionChanged="myComboBox_SelectionChanged">
+                                <TextBlock TextWrapping="Wrap" Text="Select coursecode of courses enrolled in*" FontSize="12" Padding="3" HorizontalAlignment="Left"/>
+                                <ComboBox Name="myComboBox" Width="200" Height="30" SelectionChanged="myComboBox_SelectionChanged" HorizontalAlignment="Left">
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="0 5 5 0" VerticalAlignment="Center">
