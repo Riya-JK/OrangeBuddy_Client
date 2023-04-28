@@ -10,6 +10,8 @@ using System.Windows.Input;
 using Newtonsoft.Json;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
+using OrangeBuddy_Client.UserProfile;
+using OrangeBuddy_Client.Model;
 
 namespace OrangeBuddy_Client
 {
@@ -32,31 +34,35 @@ namespace OrangeBuddy_Client
             if (isValid)
             {
                 LoginDetails login = new LoginDetails() { email=email, password=password};
-                var response = await PostRequests.postData<LoginDetails>(login, BASE_URL, "login");
+                string response = await PostRequests.postData<LoginDetails>(login, BASE_URL, "login");
                 Console.WriteLine(response);
-                MessageBox.Show("Successfully signed in");
-                UserQuestionnaire userQuestionnaire = new UserQuestionnaire(login.email);
-                this.Visibility = Visibility.Collapsed;
-                userQuestionnaire.Visibility = Visibility.Visible;
-                //if (response != null)
-                //{
-                //    if (response.Equals("{login:successful, isSurveyFilled:False}"))
-                //    {
-                //        MessageBox.Show("Successfully signed in");
-                //        UserQuestionnaire userQuestionnaire = new UserQuestionnaire(login.email);
-                //        this.Visibility = Visibility.Collapsed;
-                //        userQuestionnaire.Visibility = Visibility.Visible;
-                //    }
-                //    else if (response.Equals("{login:successful, isSurveyFilled:True}"))
-                //    {
-                //        MessageBox.Show("Successfully signed in");
-                //        this.Visibility = Visibility.Collapsed;
-                //    }
-                //    else
-                //    {
-                //        MessageBox.Show("Login unsuccessful");
-                //    }
-                //}
+                LoginResponseDetails loginResponse = JsonConvert.DeserializeObject<LoginResponseDetails>(response);
+                Console.WriteLine(loginResponse.isSurveyFilled);
+                if (response != null && loginResponse != null)
+                {
+                    if (loginResponse.isSurveyFilled)
+                    {
+                        MessageBox.Show("Successfully signed in");
+                        this.Visibility = Visibility.Collapsed;
+                        UserSchedule userSchedule = new UserSchedule(email, loginResponse.userName);
+                        userSchedule.Visibility = Visibility.Visible;
+                    }
+                    else if (loginResponse.login.Equals("successful") && !loginResponse.isSurveyFilled)
+                    {
+                        MessageBox.Show("Successfully signed in");
+                        UserQuestionnaire userQuestionnaire = new UserQuestionnaire(email, loginResponse.userName);
+                        this.Visibility = Visibility.Collapsed;
+                        userQuestionnaire.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid credentials");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid credentials");
+                }
             }
         }
 

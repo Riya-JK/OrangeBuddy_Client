@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
 using System.Windows;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using Point = System.Drawing.Point;
+using System.Globalization;
 
 namespace OrangeBuddy_Client
 {
@@ -17,14 +21,33 @@ namespace OrangeBuddy_Client
     {
         private ObservableCollection<Events> _items = new ObservableCollection<Events>();
         List<DateTime> highlightedDates;
-        // Set the Listbox's ItemsSource to the ObservableCollection
+        string userName;
+        string emailId;
+        const string BASE_URL_SCHEDULE = "http://localhost:8081/api/";
         const string BASE_URL_WEATHER = "http://localhost:8080/weather?location=Syracuse";
-        //const string BASE_URL = "https://eo976f2zjvsdg4b.m.pipedream.net";
-        public UserSchedule(string email)
+        const string BASE_URL_ADD_EVENT = "http://localhost:8081/api/userschedule?emailId=";
+        const string BASE_URL_GET_EVENT_BY_DATE = "http://localhost:8081/api/dailyschedule?emailId=";
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        public UserSchedule(string email, string userName)
         {
             InitializeComponent();
 
-            username.Text = email;
+            username.Text = userName;
+            emailId = email;
 
             //fetching weather data
             MakeGetRequest();
@@ -43,22 +66,21 @@ namespace OrangeBuddy_Client
                 new DateTime(2023, 05, 01)
             };
 
-            _items.Add(new Events { Name = "OOD Class ", IsCompleted = false, Time = "6:30-7:50" });
-            _items.Add(new Events { Name = "DBMS Class ", IsCompleted = true, Time = "5:15-6:30" });
-            taskListBox.ItemsSource = _items;
-        }
-
-        private void CalendarDayButtonLoaded(object sender, RoutedEventArgs e)
-        {
-            CalendarDayButton dayButton = sender as CalendarDayButton;
-            if (dayButton != null)
+            for (int i = 0; i < 24; i++)
             {
-                DateTime date = (DateTime)dayButton.DataContext;
-                if (highlightedDates.Contains(date))
-                {
-                    dayButton.Background = System.Windows.Media.Brushes.Orange;
-                }
+                startHourComboBox.Items.Add(i.ToString("00"));
+                endHourComboBox.Items.Add(i.ToString("00"));
             }
+
+            for (int i = 0; i < 60; i += 15)
+            {
+                startMinuteComboBox.Items.Add(i.ToString("00"));
+                endMinuteComboBox.Items.Add(i.ToString("00"));
+            }
+
+            _items.Add(new Events { eventName = "No events schedule for today ", IsCompleted = false, Time = "" });
+            taskListBox.ItemsSource = _items;
+            taskcount.Text = "You have " + _items.Count + " tasks scheduled for today!";
         }
 
         private async void MakeGetRequest()
@@ -74,6 +96,31 @@ namespace OrangeBuddy_Client
             humidity.Text = weatherObj.humidity + " %";
             windspeed.Text = weatherObj.windSpeed + " mph";
         }
+
+        private async void MakeGetRequestToGetEvents(string url)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(url);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(url);
+            Console.WriteLine(responseBody);
+            Events events = JsonConvert.DeserializeObject<Events>(responseBody);
+            if (events.Time != null)
+            {
+                _items.Clear();
+                _items.Add(events);
+                taskListBox.SelectedIndex = -1;
+                taskcount.Text = "You have " + _items.Count + " tasks scheduled for today!";
+            }
+            else
+            {
+                _items.Clear();
+                _items.Add(new Events { eventName = "No events schedule for today ", IsCompleted = false, Time = "" });
+                taskListBox.ItemsSource = _items;
+                taskcount.Text = "You have " + _items.Count + " tasks scheduled for today!";
+            }
+        }
+
         private void MyCalendar_Click(object sender, RoutedEventArgs e)
         {
             // Handle the click event here
@@ -82,6 +129,8 @@ namespace OrangeBuddy_Client
             string monthString = selectedDate.ToString("MMMM");
             monthField.Text = monthString;
             dayField.Text = selectedDate.DayOfWeek.ToString();
+            string url = BASE_URL_GET_EVENT_BY_DATE + emailId + "&calendarDate=" + selectedDate.Month + "/" + selectedDate.Day.ToString() + "/" + selectedDate.Year.ToString();
+            MakeGetRequestToGetEvents(url);
         }
 
         private void logout_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -117,34 +166,77 @@ namespace OrangeBuddy_Client
             }
         }
 
-        private void lblTime_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private async Task<ScheduleDetails> MakeGetRequestToAddTask()
         {
-            txtTime.Focus();
-            lblTime.Text = "";
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(BASE_URL_ADD_EVENT+ emailId);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseBody);
+            ScheduleDetails userSchedule = JsonConvert.DeserializeObject<ScheduleDetails>(responseBody);
+            return userSchedule;
         }
 
-        private void txtTime_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private async void Button_ClickAddEvents(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtTime.Text) && txtTime.Text.Length > 0)
+            if(!string.IsNullOrEmpty(txtNote.Text))
             {
-                lblTime.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                lblTime.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void Button_ClickAddEvents(object sender, RoutedEventArgs e)
-        {
-            if(!string.IsNullOrEmpty(txtNote.Text) && !string.IsNullOrEmpty(txtTime.Text))
-            {
-                _items.Add(new Events { Name = txtNote.Text, IsCompleted = false, Time = txtTime.Text });
+                int hour = int.Parse(startHourComboBox.SelectedItem.ToString());
+                int minute = int.Parse(startMinuteComboBox.SelectedItem.ToString());
+                int endhour = int.Parse(endHourComboBox.SelectedItem.ToString());
+                int endminute = int.Parse(endMinuteComboBox.SelectedItem.ToString());
+                string displaytime = hour.ToString() + ":" + minute.ToString() + " - " + endhour.ToString() + ":" + endminute.ToString();
+                _items.Add(new Events { eventName = txtNote.Text, IsCompleted = false, Time = displaytime });
                 taskListBox.SelectedIndex = -1;
+                taskcount.Text = "You have " + _items.Count + " tasks scheduled for today!";
+                ScheduleDetails userSchedule =  await MakeGetRequestToAddTask();
+                DateTime selectedDate;
+                if(scheduleCalendar.SelectedDate.Value == null)
+                {
+                    selectedDate= DateTime.Now;
+                }
+                else
+                {
+                    selectedDate = scheduleCalendar.SelectedDate.Value.Date;
+                }
+                DateTime selectedTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, hour, minute, 0);
+                DateTime selectedEndTime = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, endhour, endminute, 0);
+                userSchedule.personal_appointment.Add(selectedTime.ToString(), selectedEndTime.ToString());
+                var response = await PostRequests.postData<ScheduleDetails>(userSchedule, BASE_URL_SCHEDULE, "userschedule");
+                Console.WriteLine(response);
             }
             else
             {
                 MessageBox.Show("Enter valid name and timings for event");
+            }
+        }
+
+        public void captureMyScreen(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Console.WriteLine("Take a snap of my screen");
+            CaptureActiveWindow(GetForegroundWindow());
+        }
+
+        private void CaptureActiveWindow(IntPtr handle)
+        {
+            try
+            {
+
+                var rect = new Rect();
+                GetWindowRect(handle, ref rect);
+                var bounds = new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+                var result = new Bitmap(bounds.Width, bounds.Height);
+                using (var graphics = Graphics.FromImage(result))
+                {
+                    graphics.CopyFromScreen(new Point(bounds.Left, bounds.Top), Point.Empty, bounds.Size);
+                }
+                result.Save(@"C:\Users\riyak\Downloads\Capture.jpg", ImageFormat.Jpeg); ;
+                // Show the form again
+                MessageBox.Show("Screen Captured"); 
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

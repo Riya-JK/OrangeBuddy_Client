@@ -71,6 +71,7 @@
     </ApplicationDefinition>
     <Compile Include="API Integration\PostRequests.cs" />
     <Compile Include="Model\Events.cs" />
+    <Compile Include="Model\LoginResponseDetails.cs" />
     <Compile Include="Views\SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
@@ -89,7 +90,7 @@
     <Compile Include="UserControls\UserControlTextBox.xaml.cs">
       <DependentUpon>UserControlTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\UserQuestionnaire.cs" />
+    <Compile Include="Model\UserQuestionnaireResponseDetails.cs" />
     <Compile Include="Model\Weather.cs" />
     <Compile Include="Views\UserQuestionnaire.xaml.cs">
       <DependentUpon>UserQuestionnaire.xaml</DependentUpon>

@@ -7,7 +7,17 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="UserSchedule" Height="750" Width="1280" WindowStartupLocation="CenterScreen"
-        WindowStyle="None" AllowsTransparency="True" Background="Transparent" FontFamily="Trebuchet MS">
+        WindowStyle="None" AllowsTransparency="True" Background="Black" FontFamily="Trebuchet MS">
+    <Window.Resources>
+        <Style x:Key="CalendarCalendarButtonStyle1" TargetType="{x:Type CalendarButton}">
+            <Setter Property="Background" Value="#e85d04"/>
+            <Setter Property="MinWidth" Value="40"/>
+            <Setter Property="MinHeight" Value="42"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -39,7 +49,7 @@
         <!--Top menu -->
         <Grid Grid.ColumnSpan="2" Grid.Row="0" Margin="50 30 50 40" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="UserProfile" Style="{StaticResource menuTitle}" Opacity="1"/>
+                <TextBlock Text="UserDashboard" Style="{StaticResource menuTitle}" Opacity="1"/>
                 <TextBlock Name="logout" Text="Logout" Style="{StaticResource menuTitle}" MouseLeftButtonDown="logout_MouseDown"/>
             </StackPanel>
         </Grid>
@@ -71,15 +81,15 @@
                         <TextBlock Text="Profile" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource menuButton}">
+                <Button Style="{StaticResource menuButton}" >
                     <StackPanel>
-                        <fa:ImageAwesome Icon="Cog" Style="{StaticResource menuButtonIcon}"/>
-                        <TextBlock Text="Settings" Style="{StaticResource menuButtonText}"/>
+                        <fa:ImageAwesome Icon="Camera" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Snap" Style="{StaticResource menuButtonText}" MouseLeftButtonDown="captureMyScreen"/>
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource menuButton}">
                     <StackPanel>
-                        <fa:ImageAwesome Icon="Send" Style="{StaticResource menuButtonIcon}"/>
+                        <fa:ImageAwesome Icon="Send" Style="{StaticResource menuButtonIcon}" />
                         <TextBlock Text="Share" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </Button>
@@ -172,7 +182,7 @@
                 </Grid.ColumnDefinitions>
                 <Border CornerRadius="20 0 0 20" Background="#fefefe">
                     <Viewbox Grid.Column="1" Stretch="Uniform">
-                        <Calendar Name="scheduleCalendar" MouseDoubleClick="MyCalendar_Click" Loaded="CalendarDayButtonLoaded"></Calendar>
+                        <Calendar CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" Name="scheduleCalendar" MouseDoubleClick="MyCalendar_Click"></Calendar>
                     </Viewbox>
                 </Border>
                 <Border CornerRadius="0 20 20 0" MouseLeftButtonDown="Border_MouseDown" Background="#ff6d00" Grid.Column="1">
@@ -186,7 +196,7 @@
                         </StackPanel>
                         <TextBlock Name="taskcount" Text="You have 5 tasks set to do today!" Foreground="#FFFFFF" FontSize="16" Margin="35 0 20 0"/>
                         <!--Add Notes-->
-                        <Border Background="#e85d04" CornerRadius="10" HorizontalAlignment="Center" Width="355" Margin="0 30 0 20" Padding="17 15 5 15">
+                        <Border Background="#e85d04" CornerRadius="10" HorizontalAlignment="Center" Width="auto" Margin="0 30 0 20" Padding="17 15 5 15">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -205,12 +215,22 @@
                                 <Separator Margin="0 12 0 11" Height="0.8" Background="#ffffff"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <fa:ImageAwesome Icon="Bell" Width="15" Height="15" Foreground="#ffffff"/>
-                                        <TextBlock Text="__:__  -  __:__" Foreground="#ffffff" Name="lblTime" Style="{StaticResource textHintSchedule}" MouseLeftButtonDown="lblTime_MouseLeftButtonDown"/>
-                                        <TextBox Name="txtTime" Style="{StaticResource textBoxSchedule}" TextChanged="txtTime_TextChanged" HorizontalAlignment="Left"/>
+                                        <StackPanel Orientation="Horizontal" Margin="2">
+                                            <fa:ImageAwesome Icon="Bell" Width="15" Height="15" Foreground="#ffffff"/>
+                                            <TextBlock Text="StartTime :" Foreground="#ffffff" Name="starttime" Style="{StaticResource textHintSchedule}"/>
+                                            <StackPanel Orientation="Horizontal" Margin="5" >
+                                            <ComboBox Name="startHourComboBox"/>
+                                            <ComboBox Name="startMinuteComboBox"/>
+                                        </StackPanel>
+                                            <TextBlock Text="EndTime :" Foreground="#ffffff" Name="endtime" Style="{StaticResource textHintSchedule}"/>
+                                            <StackPanel Orientation="Horizontal" Margin="2" >
+                                            <ComboBox Name="endHourComboBox"/>
+                                            <ComboBox Name="endMinuteComboBox"/>
+                                        </StackPanel>
+                                        </StackPanel>
                                     </Grid>
                                 </StackPanel>
                                 <Button Grid.Column="1" Style="{StaticResource schedulebutton}" HorizontalAlignment="Right" Click="Button_ClickAddEvents">
@@ -218,14 +238,14 @@
                                 </Button>
                             </Grid>
                         </Border>
-                        <Border Background="#e85d04" CornerRadius="10" HorizontalAlignment="Center" Width="355" Margin="0 10 0 20" Padding="17 15 5 15">
+                        <Border Background="#e85d04" CornerRadius="10" HorizontalAlignment="Center" Width="375" Margin="0 0 0 10" Padding="17 15 5 15">
                             <ListBox x:Name="taskListBox"  Margin="10" Background="#e85d04">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" >
                                             <CheckBox IsChecked="{Binding IsCompleted}" Padding="2" Foreground="#ffffff"/>
-                                            <TextBlock Text="{Binding Name}" Margin="10,0,0,0" Foreground="#ffffff" FontSize="18"/>
-                                            <TextBlock Text="{Binding Time}" Margin="10,0,0,0" Foreground="#ffffff" FontSize="14"/>
+                                            <TextBlock Text="{Binding eventName}" Margin="10,0,0,0" Foreground="#ffffff" FontSize="18"/>
+                                            <TextBlock Text="{Binding Time}" Margin="10,0,0,0" Foreground="#ffffff" FontSize="18"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>

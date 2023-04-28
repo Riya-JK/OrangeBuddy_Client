@@ -4,7 +4,7 @@
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:uc="clr-namespace:OrangeBuddy_Client.UserControls"
         Title="UserQuestionnaire" Height="790" Width="1150" MinHeight="790" MinWidth="1150" WindowStyle="None"
-        WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Transparent">
+        WindowStartupLocation="CenterScreen" AllowsTransparency="True" Background="Black">
     <Border CornerRadius="5" Background="#ffffff">
         <Grid>
             <Grid.ColumnDefinitions>

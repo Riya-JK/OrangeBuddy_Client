@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace OrangeBuddy_Client.UserProfile
 {
-    internal class UserQuestionnaire
+    public class UserQuestionnaireResponseDetails
     {
         [JsonProperty("email")]
         public string email { get; set; }
 
         [JsonProperty("isSurveyFilled")]
-        public string isSurveyFilled { get; set; }
+        public bool isSurveyFilled { get; set; }
 
         [JsonProperty("userName")]
         public string userName { get; set; }

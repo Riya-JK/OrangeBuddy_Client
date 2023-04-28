@@ -21,16 +21,17 @@ namespace OrangeBuddy_Client
         List<string> courses_selected = new List<string>();
         Dictionary<string, string> work_schedule = new Dictionary<string, string>();
         Dictionary<string, string> personal_appointments = new Dictionary<string, string>();
-        string user_email;
-        //replace with microservice endpoint
+        string user_email, user_name;
+        
+        const string BASE_URL_QUESTIONNAIRE_RESPONSE = "http://localhost:8082/api/users/";
         const string BASE_URL_SCHEDULE = "http://localhost:8081/api/";
         const string BASE_URL_COURSECODES = "http://localhost:8081/api/course/codes";
         string stringpattern = @"^[a-zA-Z\s]+$";
-        public UserQuestionnaire(string email)
+        public UserQuestionnaire(string email, string userName)
         {
             InitializeComponent();
             user_email = email;
-
+            user_name = userName;
             //fetching course codes
             MakeGetRequest();
         }
@@ -166,12 +167,14 @@ namespace OrangeBuddy_Client
                     personal_appointment = personal_appointments
                 };
                 var response = await PostRequests.postData<ScheduleDetails>(schedule, BASE_URL_SCHEDULE, "userschedule");
-                Console.WriteLine(response);
-                //var login_response = await PostRequests.postData<ScheduleDetails>(schedule, BASE_URL_SCHEDULE, "login");
-                //Console.WriteLine(login_response);
+                Console.WriteLine("userschedule response = " + response);
+                UserQuestionnaireResponseDetails questionnaire = new UserQuestionnaireResponseDetails() 
+                { email=user_email, isSurveyFilled=true, userName=user_name};
+                var questionnaire_response = await PostRequests.postData<UserQuestionnaireResponseDetails>(questionnaire, BASE_URL_QUESTIONNAIRE_RESPONSE, "survey");
+                Console.WriteLine("questionnaire response = " + questionnaire_response);
                 MessageBox.Show("Form submitted successfully.Building your schedule now..");
                 this.Visibility = Visibility.Collapsed;
-                UserSchedule userSchedule = new UserSchedule(user_email);
+                UserSchedule userSchedule = new UserSchedule(user_email, user_name);
                 userSchedule.Visibility = Visibility.Visible;
             }
             else

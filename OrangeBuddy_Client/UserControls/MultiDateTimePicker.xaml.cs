@@ -53,26 +53,16 @@ namespace OrangeBuddy_Client.UserControls
         {
             // Update the available times based on the selected date
             DateTime selectedDate = datePicker.SelectedDate.Value;
-            DateTime startDateTime = selectedDate.Date.AddHours(9);
-            DateTime endDateTime = selectedDate.Date.AddHours(18).AddMinutes(45);
 
-            hourComboBox.Items.Clear();
-            minuteComboBox.Items.Clear();
-            endhourComboBox.Items.Clear();
-            endminuteComboBox.Items.Clear();
+            //hourComboBox.Items.Clear();
+            //minuteComboBox.Items.Clear();
+            //endhourComboBox.Items.Clear();
+            //endminuteComboBox.Items.Clear();
 
-            for (DateTime time = startDateTime; time <= endDateTime; time = time.AddMinutes(15))
-            {
-                hourComboBox.Items.Add(time.Hour.ToString("00"));
-                minuteComboBox.Items.Add(time.Minute.ToString("00"));
-                endhourComboBox.Items.Add(time.Hour.ToString("00"));
-                endminuteComboBox.Items.Add(time.Minute.ToString("00"));
-            }
-
-            hourComboBox.SelectedIndex = 0;
-            minuteComboBox.SelectedIndex = 0;
-            endhourComboBox.SelectedIndex = 0;
-            endminuteComboBox.SelectedIndex = 0;
+            //hourComboBox.SelectedIndex = 0;
+            //minuteComboBox.SelectedIndex = 0;
+            //endhourComboBox.SelectedIndex = 0;
+            //endminuteComboBox.SelectedIndex = 0;
         }
 
         // Add a property to get the selected date and time

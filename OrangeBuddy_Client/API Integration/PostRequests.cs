@@ -20,6 +20,7 @@ namespace OrangeBuddy_Client
             {
                 // Set the base address of the REST microservice
                 client.BaseAddress = new Uri(url);
+                Console.WriteLine(url);
 
                 // Set the content type header
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
