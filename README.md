@@ -1,9 +1,9 @@
 # OrangeBuddy_Client
 
 Orange Buddy is a desktop app designed for Syracuse University students looking to streamline their daily routine. This project was created as part of the curriculum for the subject Object Oriented Design.
-The software is backed by 3 Spring based microservices and they are :
--> UserProfile 
--> Schedule Designer
+The software is powered by a C# frontend and backed by 3 Spring based microservices and they are :
+-> UserProfile (https://github.com/KrishnamurthyKeerthana/LoginSignUp)
+-> Schedule Designer (https://github.com/Jitu0110/schedule_builder_backend)
 -> Weather Forecast
 
 The software will allow students to input course information and generate schedules based on certain criteria. Students will be able to view, access and modify their course schedules. 
